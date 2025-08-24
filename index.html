@@ -225,6 +225,16 @@ h1, h2, h3, .title, .handwrite, .motto, .motto *, .value-label{
       ticking = false;
     });
   }, {passive:true});
+    ...
+  track.addEventListener('scroll', ()=>{ /* как у тебя */ }, {passive:true});
+
+  // Синхронизируем индикатор при загрузке
+  requestAnimationFrame(()=>{ 
+    const w = track.clientWidth || 1;
+    idx = Math.round(track.scrollLeft / w);
+    updateDots();
+  });
+})();
 })();
 </script>
   </body>
