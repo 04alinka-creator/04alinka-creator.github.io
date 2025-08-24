@@ -97,45 +97,7 @@ h1, h2, h3, .title, .handwrite, .motto, .motto *, .value-label{
 <link rel="preload" href="assets/kobzar.otf" as="font" type="font/otf" crossorigin>
 
 </head>
-<script>
-(function(){
-  const track = document.querySelector('#ts .carousel-track');
-  if (!track) return;
-
-  const slides = Array.from(track.children);
-  const dots   = Array.from(document.querySelectorAll('#testimonials .dot'));
-  const prev   = document.getElementById('prev');
-  const next   = document.getElementById('next');
-  let idx = 0;
-
-  function updateDots(){
-    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
-  }
-
-  function go(i){
-    idx = (i + slides.length) % slides.length;
-    const x = slides[idx].offsetLeft;
-    track.scrollTo({ left: x, behavior: 'smooth' });
-    updateDots();
-  }
-
-  prev && prev.addEventListener('click', ()=>go(idx-1));
-  next && next.addEventListener('click', ()=>go(idx+1));
-
-  // обновляем активную точку при ручном свайпе
-  let ticking = false;
-  track.addEventListener('scroll', ()=>{
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(()=>{
-      const w = track.clientWidth || 1;
-      const i = Math.round(track.scrollLeft / w);
-      if (i !== idx){ idx = i; updateDots(); }
-      ticking = false;
-    });
-  }, {passive:true});
-})();
-</script>
+  
   <body>
     <header>
       <div class="container header-inner">
@@ -226,6 +188,44 @@ h1, h2, h3, .title, .handwrite, .motto, .motto *, .value-label{
       </footer>
     </main>
 
-    
+    <script>
+(function(){
+  const track = document.querySelector('#ts .carousel-track');
+  if (!track) return;
+
+  const slides = Array.from(track.children);
+  const dots   = Array.from(document.querySelectorAll('#testimonials .dot'));
+  const prev   = document.getElementById('prev');
+  const next   = document.getElementById('next');
+  let idx = 0;
+
+  function updateDots(){
+    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+  }
+
+  function go(i){
+    idx = (i + slides.length) % slides.length;
+    const x = slides[idx].offsetLeft;
+    track.scrollTo({ left: x, behavior: 'smooth' });
+    updateDots();
+  }
+
+  prev && prev.addEventListener('click', ()=>go(idx-1));
+  next && next.addEventListener('click', ()=>go(idx+1));
+
+  // обновляем активную точку при ручном свайпе
+  let ticking = false;
+  track.addEventListener('scroll', ()=>{
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{
+      const w = track.clientWidth || 1;
+      const i = Math.round(track.scrollLeft / w);
+      if (i !== idx){ idx = i; updateDots(); }
+      ticking = false;
+    });
+  }, {passive:true});
+})();
+</script>
   </body>
 </html>
