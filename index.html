@@ -75,18 +75,17 @@ header{background:transparent;border-bottom:0}
 .why-card b{font-weight:800}
 
 /* Testimonials */
-.carousel{position:relative;overflow:visible} /* чтобы стрелки были по краям, за пределами карточки */
+.carousel{position:relative;overflow:visible;padding:0 56px;} /* карманы под стрелки */
 .carousel-viewport{position:relative;border-radius:16px}
-.carousel-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:0}
+.carousel-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:0;-webkit-overflow-scrolling:touch}
 .slide{flex:0 0 100%;min-width:100%;scroll-snap-align:start}
 .quote{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px}
 .q-meta{font-size:13px;color:var(--muted);margin-top:6px}
 
-/* Стрелки вне краёв */
-.ctrl{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
-  border-radius:999px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
-.ctrl.left{left:-14px}
-.ctrl.right{right:-14px}
+/* Стрелки по краям секции */
+.ctrl{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:999px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;z-index:2}
+.ctrl.left{left:8px}
+.ctrl.right{right:8px}
 
 .dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
 .dot{width:8px;height:8px;border-radius:999px;background:#d3cec5;border:1px solid #b9b4aa;cursor:pointer}
@@ -96,7 +95,7 @@ header{background:transparent;border-bottom:0}
 .faq details{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
 footer{padding:40px 0;color:var(--muted)}
 hr.sep{border:none;border-top:1px solid var(--line);margin:32px 0}
-
+      
 /* адаптив */
 @media (max-width:920px){
   .interactions{grid-template-columns:1fr}
