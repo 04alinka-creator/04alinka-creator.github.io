@@ -82,36 +82,57 @@ h1, h2, h3, .title, .handwrite, .motto, .motto *, .value-label{
   font-family: 'KobzarScript', cursive !important;
   font-weight: 400;
   letter-spacing: .2px;
-}      
+}  
+/* заголовки в карточках: обычный шрифт и крупнее */
+.interactions .card h3{
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
 </style>
   
 <link rel="preload" href="assets/kobzar.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/kobzar.otf" as="font" type="font/otf" crossorigin>
 
 </head>
-  <script>
+<script>
 (function(){
-  const track = document.querySelector('.carousel-track');
+  const track = document.querySelector('#ts .carousel-track');
+  if (!track) return;
+
   const slides = Array.from(track.children);
-  const dots = Array.from(document.querySelectorAll('.dot'));
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
+  const dots   = Array.from(document.querySelectorAll('#testimonials .dot'));
+  const prev   = document.getElementById('prev');
+  const next   = document.getElementById('next');
   let idx = 0;
+
+  function updateDots(){
+    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+  }
 
   function go(i){
     idx = (i + slides.length) % slides.length;
     const x = slides[idx].offsetLeft;
     track.scrollTo({ left: x, behavior: 'smooth' });
-    dots.forEach((d,j)=>d.classList.toggle('active', j===idx));
+    updateDots();
   }
 
-  prev && (prev.onclick = ()=>go(idx-1));
-  next && (next.onclick = ()=>go(idx+1));
+  prev && prev.addEventListener('click', ()=>go(idx-1));
+  next && next.addEventListener('click', ()=>go(idx+1));
 
-  // Обновляем активную точку при ручном свайпе
+  // обновляем активную точку при ручном свайпе
+  let ticking = false;
   track.addEventListener('scroll', ()=>{
-    const i = Math.round(track.scrollLeft / track.clientWidth);
-    if (i !== idx){ idx = i; dots.forEach((d,j)=>d.classList.toggle('active', j===idx)); }
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{
+      const w = track.clientWidth || 1;
+      const i = Math.round(track.scrollLeft / w);
+      if (i !== idx){ idx = i; updateDots(); }
+      ticking = false;
+    });
   }, {passive:true});
 })();
 </script>
