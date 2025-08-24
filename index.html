@@ -69,12 +69,52 @@ footer{padding:40px 0;color:var(--muted)}hr.sep{border:none;border-top:1px solid
   .motto .scribble{font-size:32px}
   .value-line{grid-template-columns:1fr}
 }
+/* === HOTFIX: iOS свайп и рукописный шрифт === */
+.carousel-track{
+  -webkit-overflow-scrolling: touch;
+}
+.slide{
+  flex: 0 0 100%;
+  min-width: 100%;
+  scroll-snap-align: start;
+}
+h1, h2, h3, .title, .handwrite, .motto, .motto *, .value-label{
+  font-family: 'KobzarScript', cursive !important;
+  font-weight: 400;
+  letter-spacing: .2px;
+}      
 </style>
   
 <link rel="preload" href="assets/kobzar.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/kobzar.otf" as="font" type="font/otf" crossorigin>
 
 </head>
+  <script>
+(function(){
+  const track = document.querySelector('.carousel-track');
+  const slides = Array.from(track.children);
+  const dots = Array.from(document.querySelectorAll('.dot'));
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let idx = 0;
+
+  function go(i){
+    idx = (i + slides.length) % slides.length;
+    const x = slides[idx].offsetLeft;
+    track.scrollTo({ left: x, behavior: 'smooth' });
+    dots.forEach((d,j)=>d.classList.toggle('active', j===idx));
+  }
+
+  prev && (prev.onclick = ()=>go(idx-1));
+  next && (next.onclick = ()=>go(idx+1));
+
+  // Обновляем активную точку при ручном свайпе
+  track.addEventListener('scroll', ()=>{
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    if (i !== idx){ idx = i; dots.forEach((d,j)=>d.classList.toggle('active', j===idx)); }
+  }, {passive:true});
+})();
+</script>
   <body>
     <header>
       <div class="container header-inner">
